@@ -14,8 +14,13 @@ init = inputd(inputs[0])
 init = [int(x) for x in init if x != ""]
 init = tuple(init)
 actions = inputd(inputs[1])
-evids = inputd(inputs[2])
-evids = [ int(x) for x in evids]
+evid = inputd(inputs[2])
+evids = list()
+for x in evid:
+    if x == "end":
+        evids.append(x)
+    else:
+        evids.append(int(x))
 
 #create an initial dictionary for belief state
 states = [(x,y) for x in range(1,5) for y in range(1,4)]
@@ -30,11 +35,12 @@ else:
     b[init] = 1
 
 #create a sensor model 
-sensor = [(e,s) for e in range(1,3) for s in states]
+sensor = [(e,s) for e in (1,2,"end") for s in states]
 obs = { a: 0 for a in sensor}
 for s in sensor:
     if s[1] == (4,3) or s[1] == (4,2):
-        obs[s] = 0
+        if s[0] == "end":
+            obs[s] = 1
     else:
         if s[0] == 1:
             if s[1][0] == 3:

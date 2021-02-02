@@ -1,10 +1,33 @@
 
+#get inputs
+inputs = input("enter here : ")
+inputs = inputs.split(" ")
+
+def inputd(a):
+    a = a.strip("(")
+    a = a.strip(")")
+    a  = a.split(",")
+    return a
+
+
+init = inputd(inputs[0])
+init = [int(x) for x in init if x != ""]
+init = tuple(init)
+actions = inputd(inputs[1])
+evids = inputd(inputs[2])
+evids = [ int(x) for x in evids]
+
 #create an initial dictionary for belief state
 states = [(x,y) for x in range(1,5) for y in range(1,4)]
 states.remove((2,2))
-b = { a: (1/9) for a in states }
-b[(4,3)] = 0
-b[(4,2)] = 0
+b=dict()
+if init == ():
+    b = { a: (1/9) for a in states }
+    b[(4,3)] = 0
+    b[(4,2)] = 0
+else:
+    b = { a: 0 for a in states }
+    b[init] = 1
 
 #create a sensor model 
 sensor = [(e,s) for e in range(1,3) for s in states]
@@ -85,15 +108,9 @@ for s in states:
             else:
                 a_s[s].append((a,s,0.1))
 
-#get inputs
-inputs = input("enter here : ")
-inputs = inputs.split(" ")
-init = inputs[0]
-actions = inputs[1]
-actions = actions.split(",")
-evids = inputs[2]
-evids = evids.split(",")
-evids = [ int(x) for x in evids]
+
+    
+
 
 
 for i in range(len(actions)):
